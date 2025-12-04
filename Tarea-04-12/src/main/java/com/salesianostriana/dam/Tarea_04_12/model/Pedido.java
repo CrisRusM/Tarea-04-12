@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -23,4 +25,16 @@ public class Pedido {
     @JoinColumn(foreignKey =
     @ForeignKey(name = "fk_cliente_pedido"))
     private Cliente cliente;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Pedido pedido = (Pedido) o;
+        return Double.compare(total, pedido.total) == 0 && Objects.equals(id, pedido.id) && Objects.equals(cliente, pedido.cliente);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, total, cliente);
+    }
 }
